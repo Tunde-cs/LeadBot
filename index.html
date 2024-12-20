@@ -119,27 +119,57 @@
             <button onclick="sendMessage()">Send</button>
         </div>
     </div>
-<script>
-    function sendMessage() {
-        const userInput = document.getElementById("user-input");
-        const chatLog = document.getElementById("chat-log");
-
-        if (userInput.value.trim() !== "") {
-            // Add user's message
-            const userMessage = document.createElement("div");
-            userMessage.className = "user-message";
-            userMessage.innerText = userInput.value;
-            chatLog.appendChild(userMessage);
-
-            // Add bot's reply
-            const botMessage = document.createElement("div");
-            botMessage.className = "bot-message";
-            botMessage.innerText = "Thank you for your message!";
-            chatLog.appendChild(botMessage);
-
-            // Clear input
-            userInput.value = "";
-            chatLog.scrollTop = chatLog.scrollHeight;
+    <script>
+        const backendUrl = "https://lead-4l6q5eo05-tundes-projects-be3445a1.vercel.app/chat";
+        async function sendMessage() {
+            const userInput = document.getElementById("user-input");
+            const chatLog = document.getElementById("chat-log");
+    
+            if (userInput.value.trim() !== "") {
+                // Add user's message to the chat log
+                const userMessage = document.createElement("div");
+                userMessage.className = "user-message";
+                userMessage.innerText = userInput.value;
+                chatLog.appendChild(userMessage);
+    
+                // Scroll to the bottom of the chat log
+                chatLog.scrollTop = chatLog.scrollHeight;
+    
+                // Send user's message to the backend
+                try {
+                    const response = await fetch("/chat", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ message: userInput.value }),
+                    });
+    
+                    const data = await response.json();
+    
+                    // Add bot's reply to the chat log
+                    const botMessage = document.createElement("div");
+                    botMessage.className = "bot-message";
+                    botMessage.innerText = data.response; // Dynamic reply from the backend
+                    chatLog.appendChild(botMessage);
+    
+                    // Scroll to the bottom of the chat log
+                    chatLog.scrollTop = chatLog.scrollHeight;
+                } catch (error) {
+                    console.error("Error:", error);
+    
+                    // Add error message to the chat log
+                    const botMessage = document.createElement("div");
+                    botMessage.className = "bot-message";
+                    botMessage.innerText = "Oops! Something went wrong. Please try again.";
+                    chatLog.appendChild(botMessage);
+                }
+    
+                // Clear the input field
+                userInput.value = "";
+            }
         }
-    }
-</script>
+    </script>
+    
+
+    

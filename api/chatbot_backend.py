@@ -1,5 +1,9 @@
-import openai
-import os
+import openai  # OpenAI for GPT-based responses
+import os  # For environment variables (e.g., OpenAI API key)
+from flask import Flask, request, jsonify, render_template  # Flask components
+import logging  # For debugging purposes
+from dotenv import load_dotenv
+from flask_cors import CORS
 
 # Load environment variables from .env
 load_dotenv()
@@ -56,6 +60,10 @@ def chat():
     except Exception as e:
         logging.error(f"Unexpected error: {str(e)}")
         return jsonify({"error": "An unexpected error occurred. Please try again later."}), 500
+    
+    # Vercel handler for serverless function
+def handler(request, response):
+    return app(request, response)
 
 # Run the Flask app
 if __name__ == "__main__":
