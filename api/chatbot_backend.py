@@ -1,9 +1,8 @@
-import openai  # OpenAI for GPT-based responses
+from flask import Flask, request, jsonify, render_template  # Flask componentsimport openai  # OpenAI for GPT-based responses
+from flask_cors import CORS
 import os  # For environment variables (e.g., OpenAI API key)
-from flask import Flask, request, jsonify, render_template  # Flask components
 import logging  # For debugging purposes
 from dotenv import load_dotenv
-from flask_cors import CORS
 
 
 # Load environment variables from .env
