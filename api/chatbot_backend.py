@@ -5,6 +5,7 @@ import logging  # For debugging purposes
 from dotenv import load_dotenv
 from flask_cors import CORS
 
+
 # Load environment variables from .env
 load_dotenv()
 
@@ -18,7 +19,7 @@ CORS(app)  # Enable Cross-Origin Resource Sharing
 # Set up logging for better debugging and monitoring
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-@app.route("/chat", methods=["GET", "POST"])  # Allow GET for debugging, POST for actual use
+@app.route("/api/chat", methods=["GET", "POST"])  # Allow GET for debugging, POST for actual use
 def chat():
     try:
         if request.method == "GET":
